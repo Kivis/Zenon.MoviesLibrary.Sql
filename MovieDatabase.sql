@@ -40,10 +40,10 @@ GO
 	);
 GO
 
-INSERT INTO Genre (Name)
+INSERT INTO Genres (Name)
 VALUES ('Action'), ('Adventure'), ('Sci-fi'), ('Drama'), ('Horror'), ('Comedy'), ('Romantic'), ('Cartoon/Animation')
 
-INSERT INTO Director (FirstName, LastName)
+INSERT INTO Directors (FirstName, LastName)
 VALUES ('Tim', 'Miller')
 
 INSERT INTO Languages(Name)
