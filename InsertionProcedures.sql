@@ -1,12 +1,24 @@
-Create Proc InsertLanguage
+ALTER Proc InsertLanguage
 @Name nvarchar(30)
 AS
 BEGIN
-	IF NOT EXISTS (SELECT * FROM Languages WHERE Name = @Name)
+
+	DECLARE @ID INT 
+
+	SELECT @ID = Language_ID FROM Languages
+	WHERE
+		Name = @Name
+
+	IF @ID IS NULL
 	BEGIN
 		INSERT INTO Languages (Name)
 		VALUES (@Name)
+
+		SET @ID = @@IDENTITY
 	END
+	
+	SELECT @ID AS Id
+
 END;
 GO
 
@@ -22,7 +34,7 @@ BEGIN
 END
 GO
 
-Create Proc InsertDirector
+CREATE Proc InsertDirector
 @FirstName nvarchar(30),
 @LastName nvarchar(30)
 AS
@@ -35,27 +47,59 @@ BEGIN
 END
 GO
 
-Create Proc InsertMovie
-@Title nvarchar(50),
-@ReleaseDate nvarchar(30),
-@Description nvarchar(1000),
-@GenreId int,
-@DirectorId int,
-@LanguageId int
+
+
+ALTER PROC InsertMovie
+	@Title NVARCHAR(50),
+	@ReleaseDate NVARCHAR(30),
+	@Description NVARCHAR(1000),
+	@GenreId INT,
+	@DirectorId INT,
+	@LanguageId INT
 AS
 BEGIN
-	IF NOT EXISTS (SELECT * FROM Movies WHERE Title = @Title AND Description = @Description)
+	DECLARE @ID INT 
+
+	SELECT @ID = Movie_Id FROM Movies
+	WHERE
+		Title = @Title AND
+		Description = @Description
+
+	IF @ID IS NULL
 	BEGIN
-		INSERT INTO Movies(Title, ReleaseDate, Description, Genre_ID, Director_ID, Language_ID)
-		VALUES (@Title, @ReleaseDate, @Description, @GenreId, @DirectorId, @LanguageId)
+		INSERT INTO Movies
+		(
+			Title,
+			ReleaseDate,
+			Description,
+			Genre_ID,
+			Director_ID,
+			Language_ID
+		)
+		VALUES 
+		(
+			@Title,
+			@ReleaseDate,
+			@Description,
+			@GenreId,
+			@DirectorId,
+			@LanguageId
+		)
+
+		SET @ID = @@IDENTITY
 	END
+	
+	SELECT @ID AS Id
 END
 GO
 
-InsertMovie 'SQL TESTAS', '2016-02-23', 'SQL TESTAS', 1,1,1 ;
-InsertGenre 'SQL TESTASs';
+InsertMovie 'SQL TESTASs465465ss', '2016-02-23', 'SQL TESTAS', 1,1,1 ;
+SELECT TOP 1 Movie_Id FROM Movies
+
+
+InsertGenre 'SQL TESTASss';
 InsertDirector 'SQL TESTAS', 'SQL TESTAS';
-InsertLanguage 'SQL TESTASs';
+InsertLanguage 'SQL TESTASss';
 
 DROP Proc InsertMovie;
 DROP Proc InsertGenre;
