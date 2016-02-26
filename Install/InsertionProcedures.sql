@@ -1,5 +1,5 @@
-ALTER Proc InsertLanguage
-@Name nvarchar(30)
+CREATE Proc InsertLanguage
+@Name nvarchar(1000)
 AS
 BEGIN
 
@@ -22,34 +22,59 @@ BEGIN
 END;
 GO
 
-Create Proc InsertGenre
-@Name nvarchar(30)
+ALTER PROC InsertGenre
+@Name nvarchar(70)
 AS
 BEGIN
-	IF NOT EXISTS (SELECT * FROM Genres WHERE Name = @Name)
+
+	DECLARE @ID INT 
+
+	SELECT @ID = Genre_ID FROM Genres
+	WHERE
+		Name = @Name
+
+	IF @ID IS NULL
 	BEGIN
 		INSERT INTO Genres (Name)
 		VALUES (@Name)
+
+		SET @ID = @@IDENTITY
 	END
-END
+	
+	SELECT @ID AS Id
+
+END;
 GO
 
-CREATE Proc InsertDirector
-@FirstName nvarchar(30),
-@LastName nvarchar(30)
+ALTER PROC InsertDirector
+@FirstName nvarchar(70),
+@LastName nvarchar(70)
 AS
 BEGIN
-	IF NOT EXISTS (SELECT * FROM Directors WHERE FirstName = @FirstName AND LastName = @LastName)
+
+	DECLARE @ID INT 
+
+	SELECT @ID = Director_ID FROM Directors
+	WHERE
+		FirstName = @FirstName AND
+		LastName = @LastName
+
+	IF @ID IS NULL
 	BEGIN
 		INSERT INTO Directors(FirstName, LastName)
 		VALUES (@FirstName, @LastName)
+
+		SET @ID = @@IDENTITY
 	END
+	
+	SELECT @ID AS Id
+
 END
 GO
 
 
 
-ALTER PROC InsertMovie
+CREATE PROC InsertMovie
 	@Title NVARCHAR(50),
 	@ReleaseDate NVARCHAR(30),
 	@Description NVARCHAR(1000),
@@ -64,6 +89,7 @@ BEGIN
 	WHERE
 		Title = @Title AND
 		Description = @Description
+
 
 	IF @ID IS NULL
 	BEGIN
@@ -98,8 +124,9 @@ SELECT TOP 1 Movie_Id FROM Movies
 
 
 InsertGenre 'SQL TESTASss';
-InsertDirector 'SQL TESTAS', 'SQL TESTAS';
-InsertLanguage 'SQL TESTASss';
+InsertDirector 'SQL TESTASs', 'SQL TESTAS';
+InsertLanguage 'SQL TESTASss'
+SELECT @@IDENTITY AS ID
 
 DROP Proc InsertMovie;
 DROP Proc InsertGenre;
