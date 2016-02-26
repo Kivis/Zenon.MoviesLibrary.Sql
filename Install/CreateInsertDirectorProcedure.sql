@@ -1,5 +1,5 @@
 USE MoviesDatabase
-
+GO
 CREATE PROC InsertDirector
 @FirstName nvarchar(30),
 @LastName nvarchar(30)

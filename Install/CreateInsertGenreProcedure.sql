@@ -1,5 +1,5 @@
 USE MoviesDatabase
-
+GO
 CREATE PROC InsertGenre
 @Name nvarchar(30)
 AS

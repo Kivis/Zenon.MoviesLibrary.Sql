@@ -1,5 +1,5 @@
 USE MoviesDatabase
-
+GO
 CREATE Proc InsertLanguage
 @Name nvarchar(1000)
 AS

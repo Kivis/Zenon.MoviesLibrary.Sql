@@ -1,5 +1,5 @@
 USE MoviesDatabase
-
+GO
 CREATE PROC InsertMovie
 	@Title NVARCHAR(50),
 	@ReleaseDate NVARCHAR(30),
